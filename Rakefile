@@ -15,11 +15,11 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "ip2location_ruby"
-  gem.homepage = "https://github.com/ip2location/ip2location-ruby-library"
+  gem.homepage = "https://github.com/ip2location/ip2location-ruby"
   gem.license = "MIT"
   gem.summary = %Q{the ip2location ruby library}
-  gem.description = %Q{the ip2location ruby library}
-  gem.email = "zhu1230@gmail.com"
+  gem.description = %Q{ip2location ruby library}
+  gem.email = "support@ip2location.com"
   gem.authors = ["Vincent.Z"]
   # dependencies defined in Gemfile
 end
