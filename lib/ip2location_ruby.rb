@@ -12,7 +12,7 @@ class Ip2location
   attr_accessor :record_class4, :record_class6, :v4, :file, :db_index, :count, :base_addr, :ipno, :count, :record, :database, :columns, :ip_version, :ipv4databasecount, :ipv4databaseaddr, :ipv4indexbaseaddr, :ipv6databasecount, :ipv6databaseaddr, :ipv6indexbaseaddr
   
   def open(url)
-    self.file = File.open(File.expand_path url, 'rb')
+    self.file = File.open(File.expand_path(url), 'rb')
     i2l = Ip2locationConfig.read(file)
     self.db_index = i2l.databasetype
     self.columns = i2l.databasecolumn + 0
