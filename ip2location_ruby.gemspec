@@ -15,7 +15,8 @@ Gem::Specification.new do |s|
   s.description = "The official IP2Location Ruby library to geolocate an IP address. You can lookup for country, region, city, latitude, longitude, zip code, time zone, ISP, domain, area code, usage type, mobile data, weather data and elevation from an IP address. Supported both IPv4 and IPv6 lookup."
   s.email = "support@ip2location.com"
   s.extra_rdoc_files = [
-    "LICENSE.txt"
+    "LICENSE.txt",
+    "README.md"
   ]
   s.files = [
     ".document",
