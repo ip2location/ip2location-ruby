@@ -6,7 +6,7 @@
 
 Gem::Specification.new do |s|
   s.name = "ip2location_ruby"
-  s.version = "8.0.2"
+  s.version = "8.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
   if s.respond_to?(:metadata=)
     s.metadata = {
       "bug_tracker_uri" => "https://github.com/ip2location/ip2location-ruby/issues",
+      "documentation_uri" => "https://www.rubydoc.info/gems/ip2location_ruby",
       "homepage_uri" => "https://www.ip2location.com",
       "source_code_uri" => "https://github.com/ip2location/ip2location-ruby",
     }
