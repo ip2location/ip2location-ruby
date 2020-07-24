@@ -31,6 +31,10 @@ class Ip2location
     self
   end
 
+  def close()
+    self.file.close
+  end
+
   def get_record(ip)
     ipno = IPAddr.new(ip, Socket::AF_UNSPEC)
     self.ip_version, ipnum = validateip(ipno)

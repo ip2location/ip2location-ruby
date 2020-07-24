@@ -44,6 +44,8 @@ print 'Elevation: '
 print record['elevation']
 print "\n"
 print 'Usage Type: ' + record['usagetype'] + "\n"
+
+i2l.close()
 ```
 
 # Sample BIN Databases
