@@ -1,5 +1,6 @@
 require 'ip2location_ruby'
 
+# BIN Database
 i2l = Ip2location.new.open("./data/IP2LOCATION-LITE-DB1.IPV6.BIN")
 record = i2l.get_all('8.8.8.8')
 
@@ -31,3 +32,10 @@ print "\n"
 print 'Usage Type: ' + record['usagetype'] + "\n"
 
 i2l.close()
+
+# Web Service
+ws = Ip2locationWebService.new('demo', 'WS24')
+record = ws.lookup('8.8.8.8', 'continent,country,region,city,geotargeting,country_groupings,time_zone_info', 'en')
+print record
+print "\n"
+print ws.get_credit()

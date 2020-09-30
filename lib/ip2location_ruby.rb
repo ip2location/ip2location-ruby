@@ -1,6 +1,8 @@
 # encoding: utf-8
 require 'bindata'
 require 'ipaddr'
+require 'net/http'
+require 'json'
 require 'ip2location_ruby/ip2location_config'
 require 'ip2location_ruby/database_config'
 require 'ip2location_ruby/i2l_float_data'
@@ -535,5 +537,43 @@ class Ip2location
   end
 
   private :get_record, :bsearch, :get_from_to, :read32, :readipv6
+end
 
+class Ip2locationWebService
+  attr_accessor :ws_api_key, :ws_package
+
+  def initialize(api_key, package)
+    if !api_key.match(/^[0-9A-Z]{10}$/) && api_key != 'demo'
+      raise Exception.new "Please provide a valid IP2Location web service API key."
+    end
+    if !package.match(/^WS[0-9]+$/)
+      package = 'WS1'
+    end
+    self.ws_api_key = api_key
+    self.ws_package = package
+  end
+
+  def lookup(ip, add_ons, language)
+    response =  Net::HTTP.get(URI("https://api.ip2location.com/v2/?key=" + self.ws_api_key + "&ip=" + ip + "&package=" + self.ws_package + "&format=json&addon=" + add_ons + "&lang=" + language))
+    parsed_response = JSON.parse(response)
+    if parsed_response.nil?
+      return false
+    end
+    if !parsed_response["response"].nil?
+      raise Exception.new "Error: " + parsed_response["response"]
+    end
+    return parsed_response
+  end
+
+  def get_credit()
+    response =  Net::HTTP.get(URI("https://api.ip2location.com/v2/?key=" + self.ws_api_key + "&check=true"))
+    parsed_response = JSON.parse(response)
+    if parsed_response.nil?
+      return 0
+    end
+    if parsed_response["response"].nil?
+      return 0
+    end
+    return parsed_response["response"]
+  end
 end
