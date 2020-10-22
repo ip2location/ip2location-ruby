@@ -540,21 +540,29 @@ class Ip2location
 end
 
 class Ip2locationWebService
-  attr_accessor :ws_api_key, :ws_package
+  attr_accessor :ws_api_key, :ws_package, :ws_use_ssl
 
-  def initialize(api_key, package)
+  def initialize(api_key, package, use_ssl)
     if !api_key.match(/^[0-9A-Z]{10}$/) && api_key != 'demo'
       raise Exception.new "Please provide a valid IP2Location web service API key."
     end
     if !package.match(/^WS[0-9]+$/)
       package = 'WS1'
     end
+    if use_ssl == ''
+      use_ssl = true
+    end
     self.ws_api_key = api_key
     self.ws_package = package
+    self.ws_use_ssl = use_ssl
   end
 
   def lookup(ip, add_ons, language)
-    response =  Net::HTTP.get(URI("https://api.ip2location.com/v2/?key=" + self.ws_api_key + "&ip=" + ip + "&package=" + self.ws_package + "&format=json&addon=" + add_ons + "&lang=" + language))
+    if self.ws_use_ssl
+      response =  Net::HTTP.get(URI("https://api.ip2location.com/v2/?key=" + self.ws_api_key + "&ip=" + ip + "&package=" + self.ws_package + "&format=json&addon=" + add_ons + "&lang=" + language))
+    else
+      response =  Net::HTTP.get(URI("http://api.ip2location.com/v2/?key=" + self.ws_api_key + "&ip=" + ip + "&package=" + self.ws_package + "&format=json&addon=" + add_ons + "&lang=" + language))
+    end
     parsed_response = JSON.parse(response)
     if parsed_response.nil?
       return false
@@ -566,7 +574,11 @@ class Ip2locationWebService
   end
 
   def get_credit()
-    response =  Net::HTTP.get(URI("https://api.ip2location.com/v2/?key=" + self.ws_api_key + "&check=true"))
+    if self.ws_use_ssl
+      response =  Net::HTTP.get(URI("https://api.ip2location.com/v2/?key=" + self.ws_api_key + "&check=true"))
+    else
+      response =  Net::HTTP.get(URI("http://api.ip2location.com/v2/?key=" + self.ws_api_key + "&check=true"))
+    end
     parsed_response = JSON.parse(response)
     if parsed_response.nil?
       return 0
