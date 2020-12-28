@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "ip2location_ruby"
-  s.version = "8.2.2"
+  s.version = "8.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
@@ -34,10 +34,9 @@ Gem::Specification.new do |s|
     "lib/ip2location_ruby/i2l_string_data.rb",
     "lib/ip2location_ruby/ip2location_config.rb",
     "lib/ip2location_ruby/ip2location_record.rb",
-    "spec/assets/DB24.DEMO4.BIN",
-    "spec/assets/DB24.DEMO6.BIN",
-    "spec/assets/IP-COUNTRY-SAMPLE.BIN",
-    "spec/ip2location_ruby_spec.rb",
+    "spec/assets/IP2LOCATION-LITE-DB1.IPV6.BIN",
+    "spec/ip2location_ruby_database_spec.rb",
+    "spec/ip2location_ruby_webservice_spec.rb",
     "spec/spec_helper.rb",
     "rb/data/IP2LOCATION-LITE-DB1.IPV6.BIN"
   ]

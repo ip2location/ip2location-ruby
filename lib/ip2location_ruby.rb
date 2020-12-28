@@ -408,7 +408,7 @@ class Ip2location
     if valid
         rec = get_record(ip)
         if !(rec.nil?)
-            mnc = (defined?(mnc) && rec.mnc != '') ? rec.mnc : FIELD_NOT_SUPPORTED
+            mnc = (defined?(rec.mnc) && rec.mnc != '') ? rec.mnc : FIELD_NOT_SUPPORTED
         else
             mnc = INVALID_IP_ADDRESS
         end
