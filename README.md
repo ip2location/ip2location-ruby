@@ -45,7 +45,7 @@ Below is the description of the functions available in the **BIN Database** look
 | get_elevation | Return average height of city above sea level in meters (m). |
 | get_usagetype | Return the ISP's usage type of IP address. |
 | get_addresstype | Returns the IP address type (A-Anycast, B-Broadcast, M-Multicast & U-Unicast) of IP address or domain name. |
-| category | Returns the IAB content taxonomy category of IP address or domain name. |
+| get_category | Returns the IAB content taxonomy category of IP address or domain name. |
 
 
 ## Web Service
