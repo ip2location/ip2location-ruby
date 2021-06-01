@@ -30,11 +30,13 @@ print 'Elevation: '
 print record['elevation']
 print "\n"
 print 'Usage Type: ' + record['usagetype'] + "\n"
+print 'Address Type: ' + record['addresstype'] + "\n"
+print 'Category: ' + record['category'] + "\n"
 
 i2l.close()
 
 # Web Service
-ws = Ip2locationWebService.new('demo', 'WS24', true)
+ws = Ip2locationWebService.new('demo', 'WS25', true)
 record = ws.lookup('8.8.8.8', 'continent,country,region,city,geotargeting,country_groupings,time_zone_info', 'en')
 print record
 print "\n"

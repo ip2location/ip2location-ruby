@@ -2,7 +2,7 @@
 [![Total Downloads](https://img.shields.io/gem/dt/ip2location_ruby.svg)](https://rubygems.org/gems/ip2location_ruby)
 
 # IP2Location Ruby Library
-This is IP2Location Ruby library that enables the user to find the country, region or state, city, latitude and longitude, US ZIP code, time zone, Internet Service Provider (ISP) or company name, domain name, net speed, area code, weather station code, weather station name, mobile country code (MCC), mobile network code (MNC) and carrier brand, elevation, and usage type by IP address or hostname originates from.  The library reads the geo location information from **IP2Location BIN data** file or web service.
+This is IP2Location Ruby library that enables the user to find the country, region or state, city, latitude and longitude, US ZIP code, time zone, Internet Service Provider (ISP) or company name, domain name, net speed, area code, weather station code, weather station name, mobile country code (MCC), mobile network code (MNC) and carrier brand, elevation, usage type, IP address type and IAB advertising category from IP address using IP2Location database.  The library reads the geo location information from **IP2Location BIN data** file or web service.
 
 Supported IPv4 and IPv6 address.
 
@@ -19,6 +19,10 @@ Below is the description of the functions available in the **BIN Database** look
 |---|---|
 | open | Open the IP2Location BIN data for lookup. |
 | close | Close and clean up the file pointer. |
+| get_package_version | Get the package version (1 to 25 for DB1 to DB25 respectively). |
+| get_module_version | Get the module version. |
+| get_database_version | Get the database version. |
+| get_last_error_message | Return the last error message. |
 | get_all | Return the geolocation information in array. |
 | get_country_short | Return the ISO3166-1 country code (2-digits) of the IP address. |
 | get_country_long  | Return the ISO3166-1 country name of the IP address. |
@@ -40,6 +44,8 @@ Below is the description of the functions available in the **BIN Database** look
 | get_mobilebrand | Commercial brand associated with the mobile carrier. |
 | get_elevation | Return average height of city above sea level in meters (m). |
 | get_usagetype | Return the ISP's usage type of IP address. |
+| get_addresstype | Returns the IP address type (A-Anycast, B-Broadcast, M-Multicast & U-Unicast) of IP address or domain name. |
+| category | Returns the IAB content taxonomy category of IP address or domain name. |
 
 
 ## Web Service
@@ -47,8 +53,8 @@ Below is the description of the functions available in the **Web Service** looku
 
 | Function Name | Description |
 |---|---|
-| Constructor | Expect 3 input parameters:<ol><li>IP2Location API Key.</li><li>Package (WS1 - WS24)</li></li><li>Use HTTPS or HTTP</li></ol> |
-| lookup | Return the IP information in array.<ul><li>country_code</li><li>country_name</li><li>region_name</li><li>city_name</li><li>latitude</li><li>longitude</li><li>zip_code</li><li>time_zone</li><li>isp</li><li>domain</li><li>net_speed</li><li>idd_code</li><li>area_code</li><li>weather_station_code</li><li>weather_station_name</li><li>mcc</li><li>mnc</li><li>mobile_brand</li><li>elevation</li><li>usage_type</li><li>continent<ul><li>name</li><li>code</li><li>hemisphere</li><li>translations</li></ul></li><li>country<ul><li>name</li><li>alpha3_code</li><li>numeric_code</li><li>demonym</li><li>flag</li><li>capital</li><li>total_area</li><li>population</li><li>currency<ul><li>code</li><li>name</li><li>symbol</li></ul></li><li>language<ul><li>code</li><li>name</li></ul></li><li>idd_code</li><li>tld</li><li>translations</li></ul></li><li>region<ul><li>name</li><li>code</li><li>translations</li></ul></li><li>city<ul><li>name</li><li>translations</li></ul></li><li>geotargeting<ul><li>metro</li></ul></li><li>country_groupings</li><li>time_zone_info<ul><li>olson</li><li>current_time</li><li>gmt_offset</li><li>is_dst</li><li>sunrise</li><li>sunset</li></ul></li><ul> |
+| Constructor | Expect 3 input parameters:<ol><li>IP2Location API Key.</li><li>Package (WS1 - WS25)</li></li><li>Use HTTPS or HTTP</li></ol> |
+| lookup | Return the IP information in array.<ul><li>country_code</li><li>country_name</li><li>region_name</li><li>city_name</li><li>latitude</li><li>longitude</li><li>zip_code</li><li>time_zone</li><li>isp</li><li>domain</li><li>net_speed</li><li>idd_code</li><li>area_code</li><li>weather_station_code</li><li>weather_station_name</li><li>mcc</li><li>mnc</li><li>mobile_brand</li><li>elevation</li><li>usage_type</li><li>address_type</li><li>category</li><li>continent<ul><li>name</li><li>code</li><li>hemisphere</li><li>translations</li></ul></li><li>country<ul><li>name</li><li>alpha3_code</li><li>numeric_code</li><li>demonym</li><li>flag</li><li>capital</li><li>total_area</li><li>population</li><li>currency<ul><li>code</li><li>name</li><li>symbol</li></ul></li><li>language<ul><li>code</li><li>name</li></ul></li><li>idd_code</li><li>tld</li><li>translations</li></ul></li><li>region<ul><li>name</li><li>code</li><li>translations</li></ul></li><li>city<ul><li>name</li><li>translations</li></ul></li><li>geotargeting<ul><li>metro</li></ul></li><li>country_groupings</li><li>time_zone_info<ul><li>olson</li><li>current_time</li><li>gmt_offset</li><li>is_dst</li><li>sunrise</li><li>sunset</li></ul></li><ul> |
 | get_credit | Return remaining credit of the web service account. |
 
 # Dependencies
