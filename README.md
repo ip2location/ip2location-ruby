@@ -9,6 +9,13 @@ Supported IPv4 and IPv6 address.
 For more details, please visit:
 [https://www.ip2location.com/developers/ruby](https://www.ip2location.com/developers/ruby)
 
+# INSTALLATION
+Install this package using the command as below:
+
+```
+gem install ip2location_ruby
+```
+
 # Usage
 You can check the **example.rb** file to learn more about usage.
 
