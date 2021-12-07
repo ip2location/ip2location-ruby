@@ -20,6 +20,8 @@ gem install ip2location_ruby
 You can check the **example.rb** file to learn more about usage.
 
 ## BIN Database
+An outdated BIN database was provided in the library for your testing. You are recommended to visit the [links](#dependencies) to download the latest BIN database and save it in the ```rb``` folder.
+
 Below is the description of the functions available in the **BIN Database** lookup.
 
 | Function Name | Description |
@@ -68,8 +70,6 @@ Below is the description of the functions available in the **Web Service** looku
 This library requires IP2Location BIN data file to function. You may download the BIN data file at
 * IP2Location LITE BIN Data (Free): https://lite.ip2location.com
 * IP2Location Commercial BIN Data (Comprehensive): https://www.ip2location.com
-
-An outdated BIN database was provided in the library for your testing. You are recommended to visit the above links to download the latest BIN database.
 
 You can also sign up for [IP2Location Web Service](https://www.ip2location.com/web-service/ip2location) to lookup by IP2Location API.
 

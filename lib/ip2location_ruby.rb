@@ -13,7 +13,7 @@ require 'ip2location_ruby/ip2location_record'
 class Ip2location
   attr_accessor :record_class4, :record_class6, :v4, :file, :db_index, :count, :base_addr, :ipno, :count, :record, :database, :columns, :ip_version, :ipv4databasecount, :ipv4databaseaddr, :ipv4indexbaseaddr, :ipv6databasecount, :ipv6databaseaddr, :ipv6indexbaseaddr, :databaseyear, :databasemonth, :databaseday, :last_err_msg
 
-  VERSION = '8.3.1'
+  VERSION = '8.3.2'
   FIELD_NOT_SUPPORTED = 'NOT SUPPORTED'
   INVALID_IP_ADDRESS = 'INVALID IP ADDRESS'
   INVALID_BIN_DATABASE = 'Incorrect IP2Location BIN file format. Please make sure that you are using the latest IP2Location BIN file.'
@@ -29,7 +29,7 @@ class Ip2location
         self.file = File.open(File.expand_path url, 'rb')
     rescue
         self.last_err_msg = 'Ip2location.new.open() error in opening ' + url +'.'
-        abort('Ip2location.new.open() error in opening ' + url +'.')
+        abort('Ip2location.new.open() error in opening ' + url + '. No such file in the /your_ip2location_ruby_library_path/rb/ folder.')
     else
     end
     i2l = Ip2locationConfig.read(file)
