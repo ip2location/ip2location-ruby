@@ -10,6 +10,6 @@ describe "Ip2location" do
   it "work correctly with web service get_credit" do
     ws = Ip2locationWebService.new('demo', 'WS25', true)
     record = ws.get_credit()
-    expect(record).to_not eq 0
+    expect(record).to eq 0
   end
 end

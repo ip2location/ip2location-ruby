@@ -13,7 +13,7 @@ require 'ip2location_ruby/ip2location_record'
 class Ip2location
   attr_accessor :record_class4, :record_class6, :v4, :file, :db_index, :count, :base_addr, :ipno, :count, :record, :database, :columns, :ip_version, :ipv4databasecount, :ipv4databaseaddr, :ipv4indexbaseaddr, :ipv6databasecount, :ipv6databaseaddr, :ipv6indexbaseaddr, :databaseyear, :databasemonth, :databaseday, :last_err_msg
 
-  VERSION = '8.3.2'
+  VERSION = '8.4.0'
   FIELD_NOT_SUPPORTED = 'NOT SUPPORTED'
   INVALID_IP_ADDRESS = 'INVALID IP ADDRESS'
   INVALID_BIN_DATABASE = 'Incorrect IP2Location BIN file format. Please make sure that you are using the latest IP2Location BIN file.'
@@ -651,7 +651,7 @@ class Ip2location
     else
         ipv = 6
         ipnum = ip.to_i + 0
-        #reformat ipv4 address in ipv6 
+        #reformat ipv4 address in ipv6
         if ipnum >= 281470681743360 && ipnum <= 281474976710655
             ipv = 4
             ipnum = ipnum - 281470681743360
@@ -717,7 +717,7 @@ class Ip2locationWebService
     if parsed_response.nil?
       return false
     end
-    if !parsed_response["response"].nil?
+    if parsed_response["country_code"].nil?
       raise Exception.new "Error: " + parsed_response["response"]
     end
     return parsed_response
@@ -737,5 +737,229 @@ class Ip2locationWebService
       return 0
     end
     return parsed_response["response"]
+  end
+end
+
+class Ip2locationIpTools
+  def is_ipv4(ip)
+    if !(IPAddr.new(ip) rescue nil).nil?
+      if IPAddr.new(ip).ipv4?
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
+  def is_ipv6(ip)
+    if !(IPAddr.new(ip) rescue nil).nil?
+      if IPAddr.new(ip).ipv6?
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
+  def ipv4_to_decimal(ip)
+    if !(IPAddr.new(ip) rescue nil).nil?
+      ip = IPAddr.new(ip)
+      if ip.ipv4?
+        return ip.to_i
+      else
+        return
+      end
+    else
+      return
+    end
+  end
+
+  def decimal_to_ipv4(number)
+    if number.is_a? Numeric
+      return IPAddr.new(number, Socket::AF_INET).to_s
+    else
+      return
+    end
+  end
+
+  def ipv6_to_decimal(ip)
+    if !(IPAddr.new(ip) rescue nil).nil?
+      ip = IPAddr.new(ip)
+      if ip.ipv6?
+        return ip.to_i
+      else
+        return
+      end
+    else
+      return
+    end
+  end
+
+  def decimal_to_ipv6(number)
+    if number.is_a? Numeric
+      return IPAddr.new(number, Socket::AF_INET6).to_s
+    else
+      return
+    end
+  end
+
+  def ipv4_to_cidr(ipfrom, ipto)
+    if (!(IPAddr.new(ipfrom) rescue nil).nil?) and (!(IPAddr.new(ipto) rescue nil).nil?)
+      ipfrom = IPAddr.new(ipfrom)
+      ipto = IPAddr.new(ipto)
+      if ipfrom.ipv4? and ipto.ipv4?
+        ipfrom = ipfrom.to_i
+        ipto = ipto.to_i
+        result = []
+        while ipto >= ipfrom do
+          maxSize = 32
+          while maxSize > 0 do
+            mask = (2**32 - 2**(32-(maxSize - 1)))
+            maskBase = ipfrom & mask
+            if maskBase != ipfrom
+              break
+            end
+              maxSize-=1
+          end
+          x = Math.log(ipto - ipfrom + 1)/Math.log(2)
+          maxDiff = (32 - x.floor).floor
+
+          if maxSize < maxDiff
+            maxSize = maxDiff
+          end
+
+          ip = IPAddr.new(ipfrom, Socket::AF_INET).to_s
+          cidr = [ip, maxSize].join('/')
+          result.push cidr
+          ipfrom += 2**(32-maxSize)
+        end
+        return result
+      else
+        return
+      end
+    else
+      return
+    end
+  end
+
+  def cidr_to_ipv4(cidr)
+    if cidr.include? "/"
+      cidr = IPAddr.new(cidr)
+      arr_tmp = cidr.to_range.to_s.split('..')
+      ip_arr = {}
+      ip_arr['ip_start'] = arr_tmp[0]
+      ip_arr['ip_end'] = arr_tmp[1]
+      return ip_arr
+    else
+      return
+    end
+  end
+
+  def ipv6_to_cidr(ipfrom_ori, ipto)
+    if (!(IPAddr.new(ipfrom_ori) rescue nil).nil?) and (!(IPAddr.new(ipto) rescue nil).nil?)
+      ipfrom = IPAddr.new(ipfrom_ori)
+      ipto = IPAddr.new(ipto)
+      if ipfrom.ipv6? and ipto.ipv6?
+        ipfrom = '00' + ipfrom.to_i.to_s(2)
+        ipto = '00' + ipto.to_i.to_s(2)
+        result = []
+        if ipfrom == ipto
+          cidr = ipfrom_ori + '/128'
+          result.push cidr
+          return result
+        end
+        if ipfrom > ipto
+          ipfrom, ipto = ipto, ipfrom
+        end
+        networks = {}
+        network_size = 0
+        while ipto > ipfrom do
+          if ipfrom[-1, 1] == '1'
+            networks[ipfrom[network_size, (128 - network_size)] + ('0' * network_size)] = 128 - network_size
+            n = ipfrom.rindex('0')
+            ipfrom = ((n == 0) ? '' : ipfrom[0, n]) + '1' + ('0' * (128 - n - 1))
+          end
+
+          if ipto[-1, 1] == '0'
+            networks[ipto[network_size, (128 - network_size)] + ('0' * network_size)] = 128 - network_size
+            n = ipto.rindex('1')
+            ipto = ((n == 0) ? '' : ipto[0, n]) + '0' + ('1' * (128 - n - 1))
+          end
+
+          if ipfrom > ipto
+            next
+          end
+
+          shift = 128 - [ipfrom.rindex('0'), ipto.rindex('1')].max
+          ipfrom = ('0' * shift) + ipfrom[0, (128 - shift)]
+          ipto = ('0' * shift) + ipto[0, (128 - shift)]
+          network_size = network_size + shift
+
+          if ipfrom == ipto
+            networks[ipfrom[network_size, (128 - network_size)] + ('0' * network_size)] = 128 - network_size
+            next
+          end
+        end
+
+        networks.each do |ip, netmask|
+          result.push IPAddr.new(ip.to_i(2), Socket::AF_INET6).to_s + '/' + netmask.to_s
+        end
+        return result
+      else
+        return
+      end
+    else
+      return
+    end
+  end
+
+  def cidr_to_ipv6(cidr)
+    if cidr.include? "/"
+      ip_start = IPAddr.new(cidr.to_s.split('/').first).to_i.to_s(16).scan(/.{4}/)
+      ip_start = ip_start[0] + ':' + ip_start[1] + ':' + ip_start[2] + ':' + ip_start[3] + ':' + ip_start[4] + ':' + ip_start[5] + ':' + ip_start[6] + ':' + ip_start[7]
+
+      cidr_new = IPAddr.new(cidr)
+      arr_tmp = cidr_new.to_range.to_s.split('..')
+      ip_end = IPAddr.new(arr_tmp[1]).to_i.to_s(16).scan(/.{4}/)
+      ip_end = ip_end[0] + ':' + ip_end[1] + ':' + ip_end[2] + ':' + ip_end[3] + ':' + ip_end[4] + ':' + ip_end[5] + ':' + ip_end[6] + ':' + ip_end[7]
+
+      ip_arr = {}
+      ip_arr['ip_start'] = ip_start
+      ip_arr['ip_end'] = ip_end
+      return ip_arr
+    else
+      return
+    end
+  end
+
+  def compress_ipv6(ip)
+    if !(IPAddr.new(ip) rescue nil).nil?
+      ip = IPAddr.new(ip)
+      if ip.ipv6?
+        return ip
+      else
+        return
+      end
+    else
+      return
+    end
+  end
+
+  def expand_ipv6(ip)
+    if !(IPAddr.new(ip) rescue nil).nil?
+      ip = IPAddr.new(ip)
+      if ip.ipv6?
+        res = ip.to_i.to_s(16).scan(/.{4}/)
+        return res[0] + ':' + res[1] + ':' + res[2] + ':' + res[3] + ':' + res[4] + ':' + res[5] + ':' + res[6] + ':' + res[7]
+      else
+        return
+      end
+    else
+      return
+    end
   end
 end

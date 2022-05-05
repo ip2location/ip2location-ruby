@@ -4,40 +4,51 @@ require 'ip2location_ruby'
 i2l = Ip2location.new.open("./data/IP2LOCATION-LITE-DB1.IPV6.BIN")
 record = i2l.get_all('8.8.8.8')
 
-print 'Country Code: ' + record['country_short'] + "\n"
-print 'Country Name: ' + record['country_long'] + "\n"
-print 'Region Name: ' + record['region'] + "\n"
-print 'City Name: ' + record['city'] + "\n"
-print 'Latitude: '
-print record['latitude']
-print "\n"
-print 'Longitude: '
-print record['longitude']
-print "\n"
-print 'ISP: ' + record['isp'] + "\n"
-print 'Domain: ' + record['domain'] + "\n"
-print 'Net Speed: ' + record['netspeed'] + "\n"
-print 'Area Code: ' + record['areacode'] + "\n"
-print 'IDD Code: ' + record['iddcode'] + "\n"
-print 'Time Zone: ' + record['timezone'] + "\n"
-print 'ZIP Code: ' + record['zipcode'] + "\n"
-print 'Weather Station Code: ' + record['weatherstationname'] + "\n"
-print 'Weather Station Name: ' + record['weatherstationcode'] + "\n"
-print 'MCC: ' + record['mcc'] + "\n"
-print 'MNC: ' + record['mnc'] + "\n"
-print 'Mobile Name: ' + record['mobilebrand'] + "\n"
-print 'Elevation: '
-print record['elevation']
-print "\n"
-print 'Usage Type: ' + record['usagetype'] + "\n"
-print 'Address Type: ' + record['addresstype'] + "\n"
-print 'Category: ' + record['category'] + "\n"
+puts 'Country Code: ' + record['country_short']
+puts 'Country Name: ' + record['country_long']
+puts 'Region Name: ' + record['region']
+puts 'City Name: ' + record['city']
+puts 'Latitude: '
+puts record['latitude']
+puts 'Longitude: '
+puts record['longitude']
+puts 'ISP: ' + record['isp']
+puts 'Domain: ' + record['domain']
+puts 'Net Speed: ' + record['netspeed']
+puts 'Area Code: ' + record['areacode']
+puts 'IDD Code: ' + record['iddcode']
+puts 'Time Zone: ' + record['timezone']
+puts 'ZIP Code: ' + record['zipcode']
+puts 'Weather Station Code: ' + record['weatherstationname']
+puts 'Weather Station Name: ' + record['weatherstationcode']
+puts 'MCC: ' + record['mcc']
+puts 'MNC: ' + record['mnc']
+puts 'Mobile Name: ' + record['mobilebrand']
+puts 'Elevation: '
+puts record['elevation']
+puts 'Usage Type: ' + record['usagetype']
+puts 'Address Type: ' + record['addresstype']
+puts 'Category: ' + record['category']
 
 i2l.close()
 
 # Web Service
 ws = Ip2locationWebService.new('demo', 'WS25', true)
 record = ws.lookup('8.8.8.8', 'continent,country,region,city,geotargeting,country_groupings,time_zone_info', 'en')
-print record
-print "\n"
-print ws.get_credit()
+puts record
+puts ws.get_credit()
+
+# IP Tools
+iptool = Ip2locationIpTools.new()
+puts iptool.is_ipv4('8.8.8.8')
+puts iptool.is_ipv6('2001:4860:4860::8888')
+puts iptool.ipv4_to_decimal('8.8.8.8')
+puts iptool.decimal_to_ipv4(134744072)
+puts iptool.ipv6_to_decimal('2001:4860:4860::8888')
+puts iptool.decimal_to_ipv6(42541956123769884636017138956568135816)
+puts iptool.ipv4_to_cidr('8.0.0.0', '8.255.255.255')
+puts iptool.cidr_to_ipv4('8.0.0.0/8')
+puts iptool.ipv6_to_cidr('2002:0000:0000:1234:abcd:ffff:c0a8:0000', '2002:0000:0000:1234:ffff:ffff:ffff:ffff')
+puts iptool.cidr_to_ipv6('2002::1234:abcd:ffff:c0a8:101/64')
+puts iptool.compress_ipv6('2002:0000:0000:1234:ffff:ffff:ffff:ffff')
+puts iptool.expand_ipv6('2002::1234:ffff:ffff:ffff:ffff')
