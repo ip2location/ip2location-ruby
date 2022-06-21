@@ -13,7 +13,7 @@ require 'ip2location_ruby/ip2location_record'
 class Ip2location
   attr_accessor :record_class4, :record_class6, :v4, :file, :db_index, :count, :base_addr, :ipno, :count, :record, :database, :columns, :ip_version, :ipv4databasecount, :ipv4databaseaddr, :ipv4indexbaseaddr, :ipv6databasecount, :ipv6databaseaddr, :ipv6indexbaseaddr, :databaseyear, :databasemonth, :databaseday, :last_err_msg
 
-  VERSION = '8.4.0'
+  VERSION = '8.5.0'
   FIELD_NOT_SUPPORTED = 'NOT SUPPORTED'
   INVALID_IP_ADDRESS = 'INVALID IP ADDRESS'
   INVALID_BIN_DATABASE = 'Incorrect IP2Location BIN file format. Please make sure that you are using the latest IP2Location BIN file.'
@@ -88,7 +88,7 @@ class Ip2location
     if ip_version == 6 && self.ipv6databasecount == 0
         return IPV6_ADDRESS_IN_IPV4_BIN
     end
-    col_length = columns * 4
+    col_length = self.columns * 4
     if ipv4indexbaseaddr > 0 || ipv6indexbaseaddr > 0
         indexpos = 0
         case ip_version
@@ -107,8 +107,7 @@ class Ip2location
                 ipnum = realipno - 1
             end
         end
-        low = read32(indexpos)
-        high = read32(indexpos + 4)
+        low, high = read32x2(indexpos)
         return self.record = bsearch(low, high, ipnum, self.base_addr, col_length)
     else
         return self.record = bsearch(0, self.count, ipnum, self.base_addr, col_length)
@@ -618,7 +617,7 @@ class Ip2location
         mid = (low + high) >> 1
         ip_from, ip_to = get_from_to(mid, base_addr, col_length)
         if ipnum >= ip_from && ipnum < ip_to
-            from_base = ( base_addr + mid * (col_length + (self.v4 ? 0 : 12)))
+            from_base = (base_addr + mid * (col_length + (self.v4 ? 0 : 12)))
             file.seek(from_base)
             if v4
                 return self.record_class4.read(file)
@@ -636,11 +635,12 @@ class Ip2location
   end
 
   def get_from_to(mid, base_addr, col_length)
-    from_base = ( base_addr + mid * (col_length + (v4 ? 0 : 12)))
+    from_base = (base_addr + mid * (col_length + (v4 ? 0 : 12)))
+    data_length = col_length + (v4 ? 4 : (12 + 16))
     file.seek(from_base)
-    ip_from = v4 ? file.read(4).unpack('V').first : readipv6(file)
-    file.seek(from_base + col_length + (v4 ? 0 : 12))
-    ip_to = v4 ? file.read(4).unpack('V').first : readipv6(file)
+    data_read = file.read(data_length)
+    ip_from = v4 ? data_read[0..3].unpack('V').first : readipv6(data_read[0..15].unpack('V*'))
+    ip_to = v4 ? data_read[(data_length - 4)..(data_length - 1)].unpack('V').first : readipv6(data_read[(data_length - 16)..(data_length - 1)].unpack('V*'))
     [ip_from, ip_to]
   end
 
@@ -676,17 +676,19 @@ class Ip2location
     [ipv, ipnum]
   end
 
-  def read32(indexp)
+  def read32x2(indexp)
     file.seek(indexp - 1)
-    return file.read(4).unpack('V').first
+    data_read = file.read(8)
+    data1 = data_read[0..3].unpack('V').first
+    data2 = data_read[4..7].unpack('V').first
+    return [data1, data2]
   end
 
-  def readipv6(filer)
-    parts = filer.read(16).unpack('V*')
+  def readipv6(parts)
     return parts[0] + parts[1] * 4294967296 + parts[2] * 4294967296**2 + parts[3] * 4294967296**3
   end
 
-  private :get_record, :bsearch, :get_from_to, :read32, :readipv6
+  private :get_record, :bsearch, :get_from_to, :read32x2, :readipv6
 end
 
 class Ip2locationWebService
