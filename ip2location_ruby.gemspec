@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "ip2location_ruby"
-  s.version = "8.5.0"
+  s.version = "8.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
@@ -30,11 +30,15 @@ Gem::Specification.new do |s|
     "lib/ip2location_ruby/ip2location_config.rb",
     "lib/ip2location_ruby/ip2location_record.rb",
     "spec/assets/IP2LOCATION-LITE-DB1.IPV6.BIN",
+    "spec/ip2location_ruby_country_spec.rb",
     "spec/ip2location_ruby_database_spec.rb",
     "spec/ip2location_ruby_iptools_spec.rb",
+    "spec/ip2location_ruby_region_spec.rb",
     "spec/ip2location_ruby_webservice_spec.rb",
     "spec/spec_helper.rb",
-    "rb/data/IP2LOCATION-LITE-DB1.IPV6.BIN"
+    "rb/data/IP2LOCATION-LITE-DB1.IPV6.BIN",
+    "rb/data/IP2LOCATION-COUNTRY-INFORMATION-BASIC.CSV",
+    "rb/data/IP2LOCATION-ISO3166-2.CSV"
   ]
   s.homepage = "https://github.com/ip2location/ip2location-ruby"
   s.licenses = ["MIT"]

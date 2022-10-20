@@ -3,6 +3,7 @@ require 'bindata'
 require 'ipaddr'
 require 'net/http'
 require 'json'
+require 'csv'
 require 'ip2location_ruby/ip2location_config'
 require 'ip2location_ruby/database_config'
 require 'ip2location_ruby/i2l_float_data'
@@ -13,7 +14,7 @@ require 'ip2location_ruby/ip2location_record'
 class Ip2location
   attr_accessor :record_class4, :record_class6, :v4, :file, :db_index, :count, :base_addr, :ipno, :count, :record, :database, :columns, :ip_version, :ipv4databasecount, :ipv4databaseaddr, :ipv4indexbaseaddr, :ipv6databasecount, :ipv6databaseaddr, :ipv6indexbaseaddr, :databaseyear, :databasemonth, :databaseday, :last_err_msg
 
-  VERSION = '8.5.0'
+  VERSION = '8.6.0'
   FIELD_NOT_SUPPORTED = 'NOT SUPPORTED'
   INVALID_IP_ADDRESS = 'INVALID IP ADDRESS'
   INVALID_BIN_DATABASE = 'Incorrect IP2Location BIN file format. Please make sure that you are using the latest IP2Location BIN file.'
@@ -962,6 +963,129 @@ class Ip2locationIpTools
       end
     else
       return
+    end
+  end
+end
+
+class Ip2locationCountry
+  attr_accessor :fields, :records
+
+  def initialize(csv)
+    if csv == ''
+      abort('The CSV file "' + csv + '" is not found.')
+    end
+
+    begin
+      csvfile = File.open(File.expand_path csv, 'rb')
+    rescue
+      abort('Error in opening ' + csv + '. No such CSV file in the /your_ip2location_ruby_library_path/rb/ folder.')
+    else
+    end
+
+    begin
+      CSV.parse(csvfile)
+    rescue
+      abort('Unable to read "' + csv + '".')
+    else
+      line = 1
+      self.records = Hash.new
+      CSV.foreach((csvfile)) do |data|
+        if line == 1
+          if data[0] != 'country_code'
+            abort('Invalid country information CSV file.')
+          end
+          self.fields = data
+        else
+          self.records[data[0]] = data
+        end
+        line = line + 1
+      end
+    end
+  end
+
+  def get_country_info(country_code = nil)
+    if self.records.empty?
+      abort('No record available.')
+    end
+
+    if country_code
+      if (self.records[country_code]).nil?
+        return []
+      end
+      results = Hash.new
+      for i in 0..(self.fields.length()-1)
+        results[self.fields[i]] = self.records[country_code][i]
+      end
+      return results
+    end
+
+    results = []
+    self.records.each do |key, value|
+      data = Hash.new
+      for i in 0..(self.fields.length()-1)
+        data[self.fields[i]] = self.records[key][i]
+      end
+      results = results.append(data)
+    end
+    return results
+  end
+end
+
+class Ip2locationRegion
+  attr_accessor :records
+
+  def initialize(csv)
+    if csv == ''
+      abort('The CSV file "' + csv + '" is not found.')
+    end
+
+    begin
+      csvfile = File.open(File.expand_path csv, 'rb')
+    rescue
+      abort('Error in opening ' + csv + '. No such CSV file in the /your_ip2location_ruby_library_path/rb/ folder.')
+    else
+    end
+
+    begin
+      CSV.parse(csvfile)
+    rescue
+      abort('Unable to read "' + csv + '".')
+    else
+      line = 1
+      self.records = Hash.new
+      CSV.foreach((csvfile)) do |data|
+        if line == 1
+          if data[1] != 'subdivision_name'
+            abort('Invalid region information CSV file.')
+          end
+        else
+          temp_data = Hash.new
+          temp_data['code'] = data[2]
+          temp_data['name'] = data[1]
+          if self.records[data[0]]
+            self.records[data[0]].push temp_data
+          else
+            self.records[data[0]] = [temp_data]
+          end
+        end
+        line = line + 1
+      end
+    end
+  end
+
+  def get_region_code(country_code, region_name)
+    if self.records.empty?
+      abort('No record available.')
+    end
+
+    if (self.records[country_code]).nil?
+      return
+    end
+
+    for i in 0..(self.records[country_code].length()-1)
+      if region_name.upcase == self.records[country_code][i]["name"].upcase
+        return self.records[country_code][i]["code"]
+      end
     end
   end
 end

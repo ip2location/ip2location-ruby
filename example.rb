@@ -29,7 +29,6 @@ puts record['elevation']
 puts 'Usage Type: ' + record['usagetype']
 puts 'Address Type: ' + record['addresstype']
 puts 'Category: ' + record['category']
-
 i2l.close()
 
 # Web Service
@@ -52,3 +51,11 @@ puts iptool.ipv6_to_cidr('2002:0000:0000:1234:abcd:ffff:c0a8:0000', '2002:0000:0
 puts iptool.cidr_to_ipv6('2002::1234:abcd:ffff:c0a8:101/64')
 puts iptool.compress_ipv6('2002:0000:0000:1234:ffff:ffff:ffff:ffff')
 puts iptool.expand_ipv6('2002::1234:ffff:ffff:ffff:ffff')
+
+# Country Class
+country = Ip2locationCountry.new('./data/IP2LOCATION-COUNTRY-INFORMATION-BASIC.CSV')
+puts country.get_country_info('US')
+
+# Region Class
+region = Ip2locationRegion.new('./data/IP2LOCATION-ISO3166-2.CSV')
+puts region.get_region_code('US', 'California')
