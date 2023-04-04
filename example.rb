@@ -29,6 +29,9 @@ puts record['elevation']
 puts 'Usage Type: ' + record['usagetype']
 puts 'Address Type: ' + record['addresstype']
 puts 'Category: ' + record['category']
+puts 'District: ' + record['district']
+puts 'ASN: ' + record['asn']
+puts 'AS: ' + record['as']
 i2l.close()
 
 # Web Service

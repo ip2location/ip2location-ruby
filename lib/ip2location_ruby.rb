@@ -14,7 +14,7 @@ require 'ip2location_ruby/ip2location_record'
 class Ip2location
   attr_accessor :record_class4, :record_class6, :v4, :file, :db_index, :count, :base_addr, :ipno, :count, :record, :database, :columns, :ip_version, :ipv4databasecount, :ipv4databaseaddr, :ipv4indexbaseaddr, :ipv6databasecount, :ipv6databaseaddr, :ipv6indexbaseaddr, :databaseyear, :databasemonth, :databaseday, :last_err_msg
 
-  VERSION = '8.6.0'
+  VERSION = '8.7.0'
   FIELD_NOT_SUPPORTED = 'NOT SUPPORTED'
   INVALID_IP_ADDRESS = 'INVALID IP ADDRESS'
   INVALID_BIN_DATABASE = 'Incorrect IP2Location BIN file format. Please make sure that you are using the latest IP2Location BIN file.'
@@ -119,7 +119,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             country_short = IPV6_ADDRESS_IN_IPV4_BIN
             country_long = IPV6_ADDRESS_IN_IPV4_BIN
             region = IPV6_ADDRESS_IN_IPV4_BIN
@@ -142,6 +142,9 @@ class Ip2location
             usagetype = IPV6_ADDRESS_IN_IPV4_BIN
             addresstype = IPV6_ADDRESS_IN_IPV4_BIN
             category = IPV6_ADDRESS_IN_IPV4_BIN
+            district = IPV6_ADDRESS_IN_IPV4_BIN
+            asn = IPV6_ADDRESS_IN_IPV4_BIN
+            as = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             country_short = (defined?(rec.country_short) && rec.country_short != '') ? rec.country_short : FIELD_NOT_SUPPORTED
             country_long = (defined?(rec.country_long) && rec.country_long != '') ? rec.country_long : FIELD_NOT_SUPPORTED
@@ -165,6 +168,9 @@ class Ip2location
             usagetype = (defined?(rec.usagetype) && rec.usagetype != '') ? rec.usagetype : FIELD_NOT_SUPPORTED
             addresstype = (defined?(rec.addresstype) && rec.addresstype != '') ? rec.addresstype : FIELD_NOT_SUPPORTED
             category = (defined?(rec.category) && rec.category != '') ? rec.category : FIELD_NOT_SUPPORTED
+            district = (defined?(rec.district) && rec.district != '') ? rec.district : FIELD_NOT_SUPPORTED
+            asn = (defined?(rec.asn) && rec.asn != '') ? rec.asn : FIELD_NOT_SUPPORTED
+            as = (defined?(rec.as) && rec.as != '') ? rec.as : FIELD_NOT_SUPPORTED
         else
             country_short = INVALID_IP_ADDRESS
             country_long = INVALID_IP_ADDRESS
@@ -188,6 +194,9 @@ class Ip2location
             usagetype = INVALID_IP_ADDRESS
             addresstype = INVALID_IP_ADDRESS
             category = INVALID_IP_ADDRESS
+            district = INVALID_IP_ADDRESS
+            asn = INVALID_IP_ADDRESS
+            as = INVALID_IP_ADDRESS
         end
     else
         country_short = INVALID_IP_ADDRESS
@@ -212,6 +221,9 @@ class Ip2location
         usagetype = INVALID_IP_ADDRESS
         addresstype = INVALID_IP_ADDRESS
         category = INVALID_IP_ADDRESS
+        district = INVALID_IP_ADDRESS
+        asn = INVALID_IP_ADDRESS
+        as = INVALID_IP_ADDRESS
     end
     results = {}
     results['country_short'] = country_short
@@ -236,6 +248,9 @@ class Ip2location
     results['usagetype'] = usagetype
     results['addresstype'] = addresstype
     results['category'] = category
+    results['district'] = district
+    results['asn'] = asn
+    results['as'] = as
     return results
   end
 
@@ -243,7 +258,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             country_short = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             country_short = (defined?(rec.country_short) && rec.country_short != '') ? rec.country_short : FIELD_NOT_SUPPORTED
@@ -260,7 +275,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             country_long = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             country_long = (defined?(rec.country_long) && rec.country_long != '') ? rec.country_long : FIELD_NOT_SUPPORTED
@@ -277,7 +292,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             region = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             region = (defined?(rec.region) && rec.region != '') ? rec.region : FIELD_NOT_SUPPORTED
@@ -294,7 +309,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             city = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             city = (defined?(rec.city) && rec.city != '') ? rec.city : FIELD_NOT_SUPPORTED
@@ -311,7 +326,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             latitude = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             latitude = (defined?(rec.latitude) && rec.latitude != '') ? rec.latitude : FIELD_NOT_SUPPORTED
@@ -328,7 +343,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             longitude = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             longitude = (defined?(rec.longitude) && rec.longitude != '') ? rec.longitude : FIELD_NOT_SUPPORTED
@@ -345,7 +360,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             isp = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             isp = (defined?(rec.isp) && rec.isp != '') ? rec.isp : FIELD_NOT_SUPPORTED
@@ -362,7 +377,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             domain = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             domain = (defined?(rec.domain) && rec.domain != '') ? rec.domain : FIELD_NOT_SUPPORTED
@@ -379,7 +394,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             zipcode = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             zipcode = (defined?(rec.zipcode) && rec.zipcode != '') ? rec.zipcode : FIELD_NOT_SUPPORTED
@@ -396,7 +411,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             timezone = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             timezone = (defined?(rec.timezone) && rec.timezone != '') ? rec.timezone : FIELD_NOT_SUPPORTED
@@ -413,7 +428,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             netspeed = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             netspeed = (defined?(rec.netspeed) && rec.netspeed != '') ? rec.netspeed : FIELD_NOT_SUPPORTED
@@ -430,7 +445,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             iddcode = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             iddcode = (defined?(rec.iddcode) && rec.iddcode != '') ? rec.iddcode : FIELD_NOT_SUPPORTED
@@ -447,7 +462,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             areacode = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             areacode = (defined?(rec.areacode) && rec.areacode != '') ? rec.areacode : FIELD_NOT_SUPPORTED
@@ -464,7 +479,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             weatherstationcode = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             weatherstationcode = (defined?(rec.weatherstationcode) && rec.weatherstationcode != '') ? rec.weatherstationcode : FIELD_NOT_SUPPORTED
@@ -481,7 +496,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             weatherstationname = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             weatherstationname = (defined?(rec.weatherstationname) && rec.weatherstationname != '') ? rec.weatherstationname : FIELD_NOT_SUPPORTED
@@ -498,7 +513,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             mcc = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             mcc = (defined?(rec.mcc) && rec.mcc != '') ? rec.mcc : FIELD_NOT_SUPPORTED
@@ -515,7 +530,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             mnc = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             mnc = (defined?(rec.mnc) && rec.mnc != '') ? rec.mnc : FIELD_NOT_SUPPORTED
@@ -532,7 +547,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             mobilebrand = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             mobilebrand = (defined?(rec.mobilebrand) && rec.mobilebrand != '') ? rec.mobilebrand : FIELD_NOT_SUPPORTED
@@ -549,7 +564,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             elevation = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             elevation = (defined?(rec.elevation) && rec.elevation != '') ? rec.elevation : FIELD_NOT_SUPPORTED
@@ -566,7 +581,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             usagetype = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             usagetype = (defined?(rec.usagetype) && rec.usagetype != '') ? rec.usagetype : FIELD_NOT_SUPPORTED
@@ -583,7 +598,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             addresstype = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             addresstype = (defined?(rec.addresstype) && rec.addresstype != '') ? rec.addresstype : FIELD_NOT_SUPPORTED
@@ -600,7 +615,7 @@ class Ip2location
     valid = !(IPAddr.new(ip) rescue nil).nil?
     if valid
         rec = get_record(ip)
-        if  rec == IPV6_ADDRESS_IN_IPV4_BIN
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
             category = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             category = (defined?(rec.category) && rec.category != '') ? rec.category : FIELD_NOT_SUPPORTED
@@ -611,6 +626,57 @@ class Ip2location
         category = INVALID_IP_ADDRESS
     end
     return category
+  end
+
+  def get_district(ip)
+    valid = !(IPAddr.new(ip) rescue nil).nil?
+    if valid
+        rec = get_record(ip)
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
+          district = IPV6_ADDRESS_IN_IPV4_BIN
+        elsif !(rec.nil?)
+          district = (defined?(rec.district) && rec.district != '') ? rec.district : FIELD_NOT_SUPPORTED
+        else
+          district = INVALID_IP_ADDRESS
+        end
+    else
+      district = INVALID_IP_ADDRESS
+    end
+    return district
+  end
+
+  def get_asn(ip)
+    valid = !(IPAddr.new(ip) rescue nil).nil?
+    if valid
+        rec = get_record(ip)
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
+          asn = IPV6_ADDRESS_IN_IPV4_BIN
+        elsif !(rec.nil?)
+          asn = (defined?(rec.asn) && rec.asn != '') ? rec.asn : FIELD_NOT_SUPPORTED
+        else
+          asn = INVALID_IP_ADDRESS
+        end
+    else
+      asn = INVALID_IP_ADDRESS
+    end
+    return asn
+  end
+
+  def get_as(ip)
+    valid = !(IPAddr.new(ip) rescue nil).nil?
+    if valid
+        rec = get_record(ip)
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
+          as = IPV6_ADDRESS_IN_IPV4_BIN
+        elsif !(rec.nil?)
+          as = (defined?(rec.as) && rec.as != '') ? rec.as : FIELD_NOT_SUPPORTED
+        else
+          as = INVALID_IP_ADDRESS
+        end
+    else
+      as = INVALID_IP_ADDRESS
+    end
+    return as
   end
 
   def bsearch(low, high, ipnum, base_addr, col_length)

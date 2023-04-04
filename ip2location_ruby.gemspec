@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name = "ip2location_ruby"
-  s.version = "8.6.0"
+  s.version = "8.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors       = ["ip2location"]
   s.email         = ["support@ip2location.com"]
-  s.description = "The official IP2Location Ruby library to geolocate an IP address. You can lookup for country, region, city, latitude, longitude, zip code, time zone, ISP, domain, area code, usage type, mobile data, weather data and elevation from an IP address. Supported both IPv4 and IPv6 lookup."
+  s.description = "The official IP2Location Ruby library to geolocate an IP address. You can lookup for country, region, district, city, latitude and longitude, ZIP/Postal code, time zone, Internet Service Provider (ISP) or company name, domain name, net speed, area code, weather station code, weather station name, mobile country code (MCC), mobile network code (MNC) and carrier brand, elevation, usage type, address type, IAB category and ASN from an IP address. Supported both IPv4 and IPv6 lookup."
   s.email = "support@ip2location.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
