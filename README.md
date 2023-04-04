@@ -2,7 +2,7 @@
 [![Total Downloads](https://img.shields.io/gem/dt/ip2location_ruby.svg)](https://rubygems.org/gems/ip2location_ruby)
 
 # IP2Location Ruby Library
-This is IP2Location Ruby library that enables the user to find the country, region or state, city, latitude and longitude, US ZIP code, time zone, Internet Service Provider (ISP) or company name, domain name, net speed, area code, weather station code, weather station name, mobile country code (MCC), mobile network code (MNC) and carrier brand, elevation, usage type, IP address type and IAB advertising category from IP address using IP2Location database.  The library reads the geo location information from **IP2Location BIN data** file or web service.
+This is IP2Location Ruby library that enables the user to find the country, region or state, district, city, latitude and longitude, ZIP/Postal code, time zone, Internet Service Provider (ISP) or company name, domain name, net speed, area code, weather station code, weather station name, mobile country code (MCC), mobile network code (MNC) and carrier brand, elevation, usage type, address type, IAB category and ASN from IP address using IP2Location database.  The library reads the geo location information from **IP2Location BIN data** file or web service.
 
 Supported IPv4 and IPv6 address.
 
@@ -55,6 +55,9 @@ Below is the description of the functions available in the **BIN Database** look
 | get_usagetype | Return the ISP's usage type of IP address. |
 | get_addresstype | Returns the IP address type (A-Anycast, B-Broadcast, M-Multicast & U-Unicast) of IP address or domain name. |
 | get_category | Returns the IAB content taxonomy category of IP address or domain name. |
+| get_district | Returns the district or county name of IP address. |
+| get_asn | Returns the Autonomous system number (ASN) of IP address. |
+| get_as | Returns the Autonomous system (AS) name of IP address. |
 
 ## Web Service
 Below is the description of the functions available in the **Web Service** lookup.
