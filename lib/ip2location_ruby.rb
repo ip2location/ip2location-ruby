@@ -27,7 +27,7 @@ class Ip2location
     end
 
     begin
-        self.file = File.open(File.expand_path url, 'rb')
+        self.file = File.open(File.expand_path(url), 'rb')
     rescue
         self.last_err_msg = 'Ip2location.new.open() error in opening ' + url +'.'
         abort('Ip2location.new.open() error in opening ' + url + '. No such file in the /your_ip2location_ruby_library_path/rb/ folder.')
