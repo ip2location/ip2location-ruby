@@ -9,7 +9,7 @@ This library requires IP2Location BIN database to function. You may download the
     <https://www.ip2location.com>
 
 :::{note}
-An outdated BIN database was provided in the databases folder for your testing. You are recommended to visit the above links to download the latest BIN database.
+An outdated BIN database was provided in the rb/data folder for your testing. You are recommended to visit the above links to download the latest BIN database.
 :::
 
 ## Installation
