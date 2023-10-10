@@ -33,7 +33,7 @@ class DbConfig
    memo
   }
   # order by value
-  col_array = cols.sort_by {|key,value| value}
+  cols.sort_by {|key,value| value}
  end
  
 end
