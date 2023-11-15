@@ -14,7 +14,7 @@ require 'ip2location_ruby/ip2location_record'
 class Ip2location
   attr_accessor :record_class4, :record_class6, :v4, :file, :db_index, :count, :base_addr, :ipno, :count, :record, :database, :columns, :ip_version, :ipv4databasecount, :ipv4databaseaddr, :ipv4indexbaseaddr, :ipv6databasecount, :ipv6databaseaddr, :ipv6indexbaseaddr, :databaseyear, :databasemonth, :databaseday, :last_err_msg
 
-  VERSION = '8.7.1'
+  VERSION = '8.7.2'
   FIELD_NOT_SUPPORTED = 'NOT SUPPORTED'
   INVALID_IP_ADDRESS = 'INVALID IP ADDRESS'
   INVALID_BIN_DATABASE = 'Incorrect IP2Location BIN file format. Please make sure that you are using the latest IP2Location BIN file.'
@@ -988,7 +988,7 @@ class Ip2locationIpTools
 
   def cidr_to_ipv6(cidr)
     if cidr.include? "/"
-      ip_start = IPAddr.new(cidr.to_s.split('/').first).to_i.to_s(16).scan(/.{4}/)
+      ip_start = IPAddr.new(cidr).to_i.to_s(16).scan(/.{4}/)
       ip_start = ip_start[0] + ':' + ip_start[1] + ':' + ip_start[2] + ':' + ip_start[3] + ':' + ip_start[4] + ':' + ip_start[5] + ':' + ip_start[6] + ':' + ip_start[7]
 
       cidr_new = IPAddr.new(cidr)
