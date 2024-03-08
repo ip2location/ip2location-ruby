@@ -34,12 +34,6 @@ puts 'ASN: ' + record['asn']
 puts 'AS: ' + record['as']
 i2l.close()
 
-# Web Service
-ws = Ip2locationWebService.new('demo', 'WS25', true)
-record = ws.lookup('8.8.8.8', 'continent,country,region,city,geotargeting,country_groupings,time_zone_info', 'en')
-puts record
-puts ws.get_credit()
-
 # IP Tools
 iptool = Ip2locationIpTools.new()
 puts iptool.is_ipv4('8.8.8.8')
