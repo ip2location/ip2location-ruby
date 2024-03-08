@@ -8,6 +8,6 @@ gem 'bindata', "~> 2.4.15"
 
 group :development do
   gem "rspec", "~> 2.8.0"
-  gem "rdoc", "~> 3.12"
+  gem "rdoc", ">= 6.1.2.1"
   gem "bundler", ">= 1.2.0"
 end
