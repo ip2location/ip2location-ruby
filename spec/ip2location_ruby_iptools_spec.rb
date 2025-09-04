@@ -74,7 +74,7 @@ describe "Ip2location" do
     iptool = Ip2locationIpTools.new()
     record = iptool.cidr_to_ipv6('2002::1234:abcd:ffff:c0a8:101/64')
     expect(record).to include(
-  "ip_start"=>"2002:0000:0000:1234:abcd:ffff:c0a8:0101",
+  "ip_start"=>"2002:0000:0000:1234:0000:0000:0000:0000",
   "ip_end"=>"2002:0000:0000:1234:ffff:ffff:ffff:ffff"
 )
   end

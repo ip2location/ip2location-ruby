@@ -157,6 +157,24 @@ describe "Ip2location" do
     expect(record).to eq 'NOT SUPPORTED'
   end
 
+  it "work correctly with get_as_domain" do
+    i2l = Ip2location.new.open(File.dirname(__FILE__) + "/assets/IP2LOCATION-LITE-DB1.IPV6.BIN")
+    record = i2l.get_as_domain('8.8.8.8')
+    expect(record).to eq 'NOT SUPPORTED'
+  end
+
+  it "work correctly with get_as_usagetype" do
+    i2l = Ip2location.new.open(File.dirname(__FILE__) + "/assets/IP2LOCATION-LITE-DB1.IPV6.BIN")
+    record = i2l.get_as_usagetype('8.8.8.8')
+    expect(record).to eq 'NOT SUPPORTED'
+  end
+
+  it "work correctly with get_as_cidr" do
+    i2l = Ip2location.new.open(File.dirname(__FILE__) + "/assets/IP2LOCATION-LITE-DB1.IPV6.BIN")
+    record = i2l.get_as_cidr('8.8.8.8')
+    expect(record).to eq 'NOT SUPPORTED'
+  end
+
   it "work correctly with ipv6" do
     i2l = Ip2location.new.open(File.dirname(__FILE__) + "/assets/IP2LOCATION-LITE-DB1.IPV6.BIN")
     record = i2l.get_all('2001:4860:4860::8888')

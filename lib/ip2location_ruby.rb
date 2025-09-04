@@ -14,7 +14,7 @@ require 'ip2location_ruby/ip2location_record'
 class Ip2location
   attr_accessor :record_class4, :record_class6, :v4, :file, :db_index, :count, :base_addr, :ipno, :record, :database, :columns, :ip_version, :ipv4databasecount, :ipv4databaseaddr, :ipv4indexbaseaddr, :ipv6databasecount, :ipv6databaseaddr, :ipv6indexbaseaddr, :databaseyear, :databasemonth, :databaseday, :last_err_msg
 
-  VERSION = '8.7.3'
+  VERSION = '8.8.0'
   FIELD_NOT_SUPPORTED = 'NOT SUPPORTED'
   INVALID_IP_ADDRESS = 'INVALID IP ADDRESS'
   INVALID_BIN_DATABASE = 'Incorrect IP2Location BIN file format. Please make sure that you are using the latest IP2Location BIN file.'
@@ -145,6 +145,9 @@ class Ip2location
             district = IPV6_ADDRESS_IN_IPV4_BIN
             asn = IPV6_ADDRESS_IN_IPV4_BIN
             as = IPV6_ADDRESS_IN_IPV4_BIN
+            as_domain = IPV6_ADDRESS_IN_IPV4_BIN
+            as_usagetype = IPV6_ADDRESS_IN_IPV4_BIN
+            as_cidr = IPV6_ADDRESS_IN_IPV4_BIN
         elsif !(rec.nil?)
             country_short = (defined?(rec.country_short) && rec.country_short != '') ? rec.country_short : FIELD_NOT_SUPPORTED
             country_long = (defined?(rec.country_long) && rec.country_long != '') ? rec.country_long : FIELD_NOT_SUPPORTED
@@ -171,6 +174,9 @@ class Ip2location
             district = (defined?(rec.district) && rec.district != '') ? rec.district : FIELD_NOT_SUPPORTED
             asn = (defined?(rec.asn) && rec.asn != '') ? rec.asn : FIELD_NOT_SUPPORTED
             as = (defined?(rec.as) && rec.as != '') ? rec.as : FIELD_NOT_SUPPORTED
+            as_domain = (defined?(rec.as_domain) && rec.as_domain != '') ? rec.as_domain : FIELD_NOT_SUPPORTED
+            as_usagetype = (defined?(rec.as_usagetype) && rec.as_usagetype != '') ? rec.as_usagetype : FIELD_NOT_SUPPORTED
+            as_cidr = (defined?(rec.as_cidr) && rec.as_cidr != '') ? rec.as_cidr : FIELD_NOT_SUPPORTED
         else
             country_short = INVALID_IP_ADDRESS
             country_long = INVALID_IP_ADDRESS
@@ -197,6 +203,9 @@ class Ip2location
             district = INVALID_IP_ADDRESS
             asn = INVALID_IP_ADDRESS
             as = INVALID_IP_ADDRESS
+            as_domain = INVALID_IP_ADDRESS
+            as_usagetype = INVALID_IP_ADDRESS
+            as_cidr = INVALID_IP_ADDRESS
         end
     else
         country_short = INVALID_IP_ADDRESS
@@ -224,6 +233,9 @@ class Ip2location
         district = INVALID_IP_ADDRESS
         asn = INVALID_IP_ADDRESS
         as = INVALID_IP_ADDRESS
+        as_domain = INVALID_IP_ADDRESS
+        as_usagetype = INVALID_IP_ADDRESS
+        as_cidr = INVALID_IP_ADDRESS
     end
     results = {}
     results['country_short'] = country_short
@@ -251,6 +263,9 @@ class Ip2location
     results['district'] = district
     results['asn'] = asn
     results['as'] = as
+    results['as_domain'] = as_domain
+    results['as_usagetype'] = as_usagetype
+    results['as_cidr'] = as_cidr
     return results
   end
 
@@ -677,6 +692,57 @@ class Ip2location
       as = INVALID_IP_ADDRESS
     end
     return as
+  end
+
+  def get_as_domain(ip)
+    valid = !(IPAddr.new(ip) rescue nil).nil?
+    if valid
+        rec = get_record(ip)
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
+          as_domain = IPV6_ADDRESS_IN_IPV4_BIN
+        elsif !(rec.nil?)
+          as_domain = (defined?(rec.as_domain) && rec.as_domain != '') ? rec.as_domain : FIELD_NOT_SUPPORTED
+        else
+          as_domain = INVALID_IP_ADDRESS
+        end
+    else
+      as_domain = INVALID_IP_ADDRESS
+    end
+    return as_domain
+  end
+
+  def get_as_usagetype(ip)
+    valid = !(IPAddr.new(ip) rescue nil).nil?
+    if valid
+        rec = get_record(ip)
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
+          as_usagetype = IPV6_ADDRESS_IN_IPV4_BIN
+        elsif !(rec.nil?)
+          as_usagetype = (defined?(rec.as_usagetype) && rec.as_usagetype != '') ? rec.as_usagetype : FIELD_NOT_SUPPORTED
+        else
+          as_usagetype = INVALID_IP_ADDRESS
+        end
+    else
+      as_usagetype = INVALID_IP_ADDRESS
+    end
+    return as_usagetype
+  end
+
+  def get_as_cidr(ip)
+    valid = !(IPAddr.new(ip) rescue nil).nil?
+    if valid
+        rec = get_record(ip)
+        if rec == IPV6_ADDRESS_IN_IPV4_BIN
+          as_cidr = IPV6_ADDRESS_IN_IPV4_BIN
+        elsif !(rec.nil?)
+          as_cidr = (defined?(rec.as_cidr) && rec.as_cidr != '') ? rec.as_cidr : FIELD_NOT_SUPPORTED
+        else
+          as_cidr = INVALID_IP_ADDRESS
+        end
+    else
+      as_cidr = INVALID_IP_ADDRESS
+    end
+    return as_cidr
   end
 
   def bsearch(low, high, ipnum, base_addr, col_length)

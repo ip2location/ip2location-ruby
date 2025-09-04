@@ -32,6 +32,9 @@ puts 'Category: ' + record['category']
 puts 'District: ' + record['district']
 puts 'ASN: ' + record['asn']
 puts 'AS: ' + record['as']
+puts 'AS Domain: ' + record['as_domain']
+puts 'AS Usage Type: ' + record['as_usagetype']
+puts 'AS CIDR: ' + record['as_cidr']
 i2l.close()
 
 # IP Tools
