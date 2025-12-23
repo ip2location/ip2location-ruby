@@ -9,7 +9,7 @@ Load the IP2Location BIN database.
 ```
 
 ```{py:function} get_package_version()
-Get the package version (1 to 25 for DB1 to DB25 respectively).
+Get the package version (1 to 26 for DB1 to DB26 respectively).
 
 :return: Returns the package version.
 :rtype: string
