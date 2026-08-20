@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "ip2location_ruby"
-  s.version = "8.8.0"
+  s.version = "8.8.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
@@ -43,34 +43,17 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.summary = "the ip2location ruby library"
 
-  if s.respond_to?(:metadata=)
-    s.metadata = {
-      "bug_tracker_uri" => "https://github.com/ip2location/ip2location-ruby/issues",
-      "documentation_uri" => "https://www.rubydoc.info/gems/ip2location_ruby",
-      "homepage_uri" => "https://www.ip2location.com",
-      "source_code_uri" => "https://github.com/ip2location/ip2location-ruby",
-    }
-  end
+  s.metadata = {
+    "bug_tracker_uri" => "https://github.com/ip2location/ip2location-ruby/issues",
+    "documentation_uri" => "https://www.rubydoc.info/gems/ip2location_ruby",
+    "homepage_uri" => "https://www.ip2location.com",
+    "source_code_uri" => "https://github.com/ip2location/ip2location-ruby",
+  }
 
-  if s.respond_to? :specification_version then
-    s.specification_version = 4
-
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<bindata>, ["~> 2.4.15"])
-      s.add_development_dependency(%q<rspec>, ["~> 2.8.0"])
-      s.add_development_dependency(%q<rdoc>, [">= 6.3.1"])
-      s.add_development_dependency(%q<bundler>, [">= 1.2.0"])
-    else
-      s.add_dependency(%q<bindata>, ["~> 2.4.15"])
-      s.add_dependency(%q<rspec>, ["~> 2.8.0"])
-      s.add_dependency(%q<rdoc>, [">= 6.3.1"])
-      s.add_dependency(%q<bundler>, [">= 1.2.0"])
-    end
-  else
-    s.add_dependency(%q<bindata>, ["~> 2.4.15"])
-    s.add_dependency(%q<rspec>, ["~> 2.8.0"])
-    s.add_dependency(%q<rdoc>, [">= 6.3.1"])
-    s.add_dependency(%q<bundler>, [">= 1.2.0"])
-  end
+  s.required_ruby_version = ">= 3.0"
+  s.add_runtime_dependency "bindata", "~> 3.0"
+  s.add_development_dependency "rspec", "~> 3.13"
+  s.add_development_dependency "rdoc", ">= 6.3.1"
+  s.add_development_dependency "bundler", ">= 2.4"
 end
 
